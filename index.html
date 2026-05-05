@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spingarn — Integrated Business Consulting</title>
+<style>
+  :root {
+    --magenta: #C8007A;
+    --magenta-light: #E8409A;
+    --magenta-dark: #9A005E;
+    --dark: #1A1A1A;
+    --charcoal: #2D2D2D;
+    --gray: #6B6B6B;
+    --light: #F8F8F8;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #000;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ─── SLIDE ENGINE ─── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ─── NAVIGATION ─── */
+  .nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+  }
+  .nav-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+  }
+  .nav-btn:hover { background: var(--magenta); border-color: var(--magenta); }
+  .nav-counter {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    min-width: 60px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+  }
+  .nav-dots { display: flex; gap: 6px; align-items: center; }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dot.active { background: var(--magenta); width: 20px; border-radius: 3px; }
+
+  /* ─── LOGO SVG ─── */
+  .logo-svg { display: block; }
+
+  /* ─── SLIDE 1: COVER ─── */
+  #s1 {
+    background: var(--dark);
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 10%;
+    overflow: hidden;
+    position: relative;
+  }
+  #s1 .bg-triangles {
+    position: absolute;
+    right: -40px; top: -60px;
+    width: 55%;
+    height: 110%;
+    opacity: 0.12;
+  }
+  #s1 .bg-accent {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--magenta), transparent);
+  }
+  #s1 .cover-logo { margin-bottom: 56px; }
+  #s1 .cover-tag {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--magenta);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  #s1 .cover-title {
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 680px;
+    margin-bottom: 28px;
+  }
+  #s1 .cover-title strong { font-weight: 700; color: var(--white); }
+  #s1 .cover-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    max-width: 520px;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 56px;
+  }
+  #s1 .cover-line {
+    width: 60px; height: 2px;
+    background: var(--magenta);
+  }
+
+  /* ─── SLIDE 2: PROBLEMA ─── */
+  #s2 {
+    background: var(--white);
+    padding: 72px 10%;
+  }
+  .slide-header {
+    margin-bottom: 48px;
+  }
+  .slide-eyebrow {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--magenta);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .slide-title {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+  }
+  .slide-title span { color: var(--magenta); }
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    flex: 1;
+  }
+  .pain-card {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 32px 28px;
+    border-left: 4px solid transparent;
+    transition: border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pain-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 0;
+    background: var(--magenta);
+    opacity: 0.04;
+    transition: height 0.3s;
+  }
+  .pain-card:hover { border-left-color: var(--magenta); }
+  .pain-icon { font-size: 32px; margin-bottom: 16px; }
+  .pain-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+  .pain-desc { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+  /* ─── SLIDE 3: QUIÉNES SOMOS ─── */
+  #s3 {
+    background: var(--dark);
+    padding: 72px 10%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 80px;
+  }
+  #s3 .left { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  #s3 .right {
+    width: 380px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  #s3 .slide-title { color: var(--white); }
+  #s3 .slide-eyebrow { color: var(--magenta); }
+  #s3 .desc {
+    font-size: 17px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-top: 24px;
+    margin-bottom: 36px;
+    max-width: 500px;
+  }
+  .stat-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px 28px;
+    transition: background 0.3s;
+  }
+  .stat-box:hover { background: rgba(200,0,122,0.1); border-color: rgba(200,0,122,0.3); }
+  .stat-num { font-size: 40px; font-weight: 800; color: var(--magenta); line-height: 1; }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(200,0,122,0.12);
+    border: 1px solid rgba(200,0,122,0.3);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-size: 13px; color: var(--magenta-light);
+    font-weight: 500;
+  }
+  .pill-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ─── SLIDE 4: METODOLOGÍA ─── */
+  #s4 {
+    background: var(--white);
+    padding: 64px 10%;
+  }
+  .method-steps {
+    display: flex;
+    gap: 0;
+    margin-top: 48px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .step {
+    flex: 1;
+    padding: 40px 36px;
+    position: relative;
+    background: var(--light);
+    transition: background 0.3s;
+  }
+  .step:hover { background: #f0f0f0; }
+  .step + .step::before {
+    content: '→';
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: var(--magenta);
+    font-weight: 300;
+    z-index: 2;
+  }
+  .step:first-child { border-radius: 16px 0 0 16px; }
+  .step:last-child { border-radius: 0 16px 16px 0; }
+  .step-num {
+    font-size: 56px;
+    font-weight: 900;
+    color: rgba(200,0,122,0.08);
+    line-height: 1;
+    margin-bottom: 16px;
+    font-family: 'Georgia', serif;
+  }
+  .step-icon { font-size: 28px; margin-bottom: 12px; }
+  .step-name { font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+  .step-name span { color: var(--magenta); }
+  .step-desc { font-size: 14px; color: var(--gray); line-height: 1.65; }
+  .step-tags { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .step-tag {
+    font-size: 12px;
+    background: rgba(200,0,122,0.08);
+    color: var(--magenta-dark);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  /* ─── SLIDE 5: IA & HERRAMIENTAS ─── */
+  #s5 {
+    background: var(--dark);
+    padding: 64px 10%;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 44px;
+    flex: 1;
+  }
+  .tool-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .tool-card:hover {
+    background: rgba(200,0,122,0.08);
+    border-color: rgba(200,0,122,0.25);
+    transform: translateY(-2px);
+  }
+  .tool-icon-wrap {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: rgba(200,0,122,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .tool-name { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .tool-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  .tool-examples { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-ex {
+    font-size: 11px;
+    background: rgba(200,0,122,0.12);
+    color: var(--magenta-light);
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  #s5 .slide-title { color: var(--white); }
+  #s5 .slide-eyebrow { color: var(--magenta); }
+
+  /* ─── SLIDE 6: SERVICIOS ─── */
+  #s6 {
+    background: var(--white);
+    padding: 64px 10%;
+  }
+  .services-layout {
+    display: flex;
+    gap: 48px;
+    margin-top: 44px;
+    flex: 1;
+    align-items: stretch;
+  }
+  .service-list { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+  .service-item {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    border-radius: 12px;
+    background: var(--light);
+    cursor: pointer;
+    transition: all 0.25s;
+    align-items: flex-start;
+  }
+  .service-item:hover, .service-item.sel {
+    background: var(--magenta);
+    color: #fff;
+  }
+  .service-item:hover .svc-title, .service-item.sel .svc-title { color: #fff; }
+  .service-item:hover .svc-desc, .service-item.sel .svc-desc { color: rgba(255,255,255,0.75); }
+  .svc-icon { font-size: 24px; margin-top: 2px; }
+  .svc-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .svc-desc { font-size: 13px; color: var(--gray); line-height: 1.55; }
+  .service-visual {
+    width: 320px;
+    background: var(--dark);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+  }
+  .sv-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+  .sv-title { font-size: 22px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .sv-bullet { font-size: 14px; color: rgba(255,255,255,0.6); padding-left: 16px; position: relative; line-height: 1.5; }
+  .sv-bullet::before { content: '—'; position: absolute; left: 0; color: var(--magenta); }
+
+  /* ─── SLIDE 7: PROCESO ─── */
+  #s7 {
+    background: var(--dark);
+    padding: 64px 10%;
+  }
+  #s7 .slide-title { color: var(--white); }
+  #s7 .slide-eyebrow { color: var(--magenta); }
+  .process-timeline {
+    margin-top: 48px;
+    display: flex;
+    gap: 0;
+    position: relative;
+    flex: 1;
+    align-items: center;
+  }
+  .process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-50%);
+  }
+  .pt-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .pt-circle {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(200,0,122,0.1);
+    border: 2px solid rgba(200,0,122,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+  }
+  .pt-step:hover .pt-circle {
+    background: var(--magenta);
+    border-color: var(--magenta);
+    transform: scale(1.1);
+  }
+  .pt-week {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--magenta);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .pt-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .pt-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.55; max-width: 120px; }
+
+  /* ─── SLIDE 8: POR QUÉ SPINGARN ─── */
+  #s8 {
+    background: var(--white);
+    padding: 64px 10%;
+    flex-direction: row;
+    gap: 64px;
+    align-items: center;
+  }
+  #s8 .left { flex: 1; }
+  #s8 .right { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .diff-card {
+    background: var(--light);
+    border-radius: 14px;
+    padding: 28px 24px;
+    transition: all 0.3s;
+    border-top: 3px solid transparent;
+  }
+  .diff-card:hover { border-top-color: var(--magenta); background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+  .diff-icon { font-size: 28px; margin-bottom: 12px; }
+  .diff-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .diff-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  #s8 .desc {
+    font-size: 16px;
+    color: var(--gray);
+    line-height: 1.75;
+    margin-top: 20px;
+    margin-bottom: 32px;
+  }
+  .quote-block {
+    border-left: 3px solid var(--magenta);
+    padding-left: 20px;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--dark);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  .quote-author {
+    font-size: 13px;
+    color: var(--magenta);
+    font-style: normal;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  /* ─── SLIDE 9: CASO DE USO ─── */
+  #s9 {
+    background: var(--dark);
+    padding: 64px 10%;
+  }
+  #s9 .slide-title { color: var(--white); }
+  #s9 .slide-eyebrow { color: var(--magenta); }
+  .case-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 44px;
+    flex: 1;
+  }
+  .case-col { display: flex; flex-direction: column; gap: 16px; }
+  .case-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+    flex: 1;
+  }
+  .case-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .case-label.problem { color: rgba(255,100,100,0.8); }
+  .case-label.solution { color: var(--magenta-light); }
+  .case-label.result { color: #4EC9B0; }
+  .case-text { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+  .case-result-num { font-size: 48px; font-weight: 900; line-height: 1; }
+  .case-result-num.magenta { color: var(--magenta); }
+  .case-result-num.green { color: #4EC9B0; }
+  .case-result-label { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .results-row { display: flex; gap: 24px; }
+  .result-item { flex: 1; }
+
+  /* ─── SLIDE 10: CIERRE ─── */
+  #s10 {
+    background: var(--dark);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #s10 .bg-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,0,122,0.15) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #s10 .close-content { position: relative; z-index: 1; }
+  #s10 .close-eyebrow {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--magenta);
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  #s10 .close-title {
+    font-size: clamp(34px, 4.5vw, 56px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+  #s10 .close-title strong { font-weight: 800; }
+  #s10 .close-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.45);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--magenta);
+    color: #fff;
+    padding: 16px 36px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  .cta-btn:hover { background: var(--magenta-dark); }
+  #s10 .contact-row {
+    margin-top: 48px;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+  }
+  #s10 .contact-item {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #s10 .contact-item span { color: rgba(255,255,255,0.7); }
+
+  /* ─── KEYBOARD HINT ─── */
+  .key-hint {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.2);
+    z-index: 100;
+    letter-spacing: 1px;
+  }
+
+  /* ─── SLIDE 10 FIX: close-content needs explicit width ─── */
+  #s10 .close-content {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ─── MOBILE RESPONSIVE ────────────────────────────────────── */
+  @media (max-width: 768px) {
+
+    /* Allow slides to scroll internally on mobile */
+    .slide.active {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Navigation: smaller + more bottom space */
+    .nav { bottom: 12px; gap: 10px; }
+    .nav-btn { width: 38px; height: 38px; font-size: 16px; }
+    .dot { width: 5px; height: 5px; }
+    .key-hint { display: none; }
+
+    /* Reserve space for nav at bottom of every slide */
+    .slide { padding-bottom: 72px !important; }
+
+    /* ── S1: Portada ── */
+    #s1 { padding: 40px 6% 80px; }
+    #s1 .bg-triangles { opacity: 0.06; width: 100%; right: 0; }
+
+    /* ── S2: Problema ── */
+    #s2 { padding: 36px 5% 80px; }
+    .slide-header { margin-bottom: 28px; }
+    .slide-title { font-size: clamp(22px, 5.5vw, 36px); }
+    .pain-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pain-card { padding: 18px 14px; border-radius: 10px; }
+    .pain-icon { font-size: 24px; margin-bottom: 10px; }
+    .pain-title { font-size: 13px; margin-bottom: 6px; }
+    .pain-desc { font-size: 12px; }
+
+    /* ── S3: Quiénes somos ── */
+    #s3 { flex-direction: column; padding: 36px 5% 80px; gap: 28px; align-items: stretch; }
+    #s3 .right { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+    .stat-box { flex: 1; min-width: 130px; padding: 18px 16px; }
+    .stat-num { font-size: 32px; }
+    #s3 .desc { font-size: 15px; margin-bottom: 20px; }
+    .pill { font-size: 12px; padding: 6px 12px; }
+
+    /* ── S4: Metodología ── */
+    #s4 { padding: 36px 5% 80px; }
+    .method-steps { flex-direction: column; margin-top: 24px; gap: 0; }
+    .step { padding: 22px 18px; border-radius: 0 !important; }
+    .step:first-child { border-radius: 14px 14px 0 0 !important; }
+    .step:last-child { border-radius: 0 0 14px 14px !important; }
+    .step + .step::before { content: '↓'; left: 50%; top: -14px; transform: translateX(-50%); font-size: 18px; }
+    .step-num { font-size: 40px; margin-bottom: 8px; }
+    .step-name { font-size: 16px; }
+    .step-desc { font-size: 13px; }
+
+    /* ── S5: Herramientas IA ── */
+    #s5 { padding: 36px 5% 80px; }
+    .tools-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
+    .tool-card { padding: 20px 18px; gap: 16px; }
+    .tool-icon-wrap { width: 44px; height: 44px; border-radius: 12px; font-size: 20px; }
+    .tool-name { font-size: 15px; }
+    .tool-desc { font-size: 13px; }
+
+    /* ── S6: Servicios ── */
+    #s6 { padding: 36px 5% 80px; }
+    .services-layout { flex-direction: column; gap: 20px; margin-top: 28px; }
+    .service-visual { width: 100%; padding: 24px; }
+    .service-item { padding: 16px 18px; }
+    .svc-title { font-size: 14px; }
+    .svc-desc { font-size: 12px; }
+
+    /* ── S7: Proceso ── */
+    #s7 { padding: 36px 5% 80px; }
+    .process-timeline { flex-direction: column; gap: 0; align-items: stretch; margin-top: 28px; }
+    .process-timeline::before { display: none; }
+    .pt-step { flex-direction: row; text-align: left; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .pt-step:last-child { border-bottom: none; }
+    .pt-circle { width: 48px; height: 48px; font-size: 20px; margin-bottom: 0; flex-shrink: 0; }
+    .pt-week { font-size: 10px; margin-bottom: 2px; }
+    .pt-name { font-size: 14px; margin-bottom: 2px; }
+    .pt-desc { font-size: 12px; max-width: none; }
+
+    /* ── S8: Por qué Spingarn ── */
+    #s8 { flex-direction: column; padding: 36px 5% 80px; gap: 28px; align-items: stretch; }
+    #s8 .right { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .diff-card { padding: 20px 16px; }
+    .diff-icon { font-size: 22px; margin-bottom: 8px; }
+    .diff-title { font-size: 13px; }
+    .diff-desc { font-size: 12px; }
+    #s8 .desc { font-size: 14px; margin-bottom: 20px; }
+    .quote-block { font-size: 15px; }
+
+    /* ── S9: Caso de uso ── */
+    #s9 { padding: 36px 5% 80px; }
+    .case-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
+    .case-card { padding: 18px; }
+    .case-text { font-size: 13px; }
+    .results-row { gap: 16px; }
+    .case-result-num { font-size: 36px; }
+    .case-result-label { font-size: 12px; }
+
+    /* ── S10: Cierre ── */
+    #s10 { padding: 40px 0 80px; }
+    #s10 .close-title { font-size: clamp(26px, 7vw, 44px); }
+    #s10 .close-sub { font-size: 15px; margin-bottom: 32px; }
+    #s10 .contact-row { flex-direction: column; gap: 14px; margin-top: 32px; }
+    #s10 .contact-item { font-size: 13px; }
+    .cta-btn { padding: 14px 28px; font-size: 14px; }
+  }
+
+  @media (max-width: 480px) {
+    .pain-grid { grid-template-columns: 1fr; }
+    #s8 .right { grid-template-columns: 1fr; }
+    #s3 .right { flex-direction: column; }
+    .stat-box { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- ─── SLIDE 1: PORTADA ─── -->
+  <div class="slide active" id="s1">
+    <svg class="bg-triangles" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="300,40 580,560 20,560" stroke="#C8007A" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <polygon points="320,80 560,520 80,520" stroke="#1A1A1A" stroke-width="1" fill="none" opacity="0.4"/>
+      <polygon points="340,120 540,480 140,480" stroke="#C8007A" stroke-width="0.8" fill="none" opacity="0.3"/>
+      <polygon points="360,160 520,440 200,440" stroke="#555" stroke-width="0.6" fill="none" opacity="0.2"/>
+      <polygon points="380,200 500,400 260,400" stroke="#C8007A" stroke-width="0.5" fill="none" opacity="0.15"/>
+    </svg>
+    <div class="bg-accent"></div>
+
+    <div class="cover-logo">
+      <!-- Spingarn Logo SVG (inline recreation) -->
+      <svg width="240" height="72" viewBox="0 0 320 96" xmlns="http://www.w3.org/2000/svg">
+        <!-- Wordmark -->
+        <text x="0" y="62" font-family="'Helvetica Neue', Arial, sans-serif" font-size="56" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
+        <!-- Tagline -->
+        <text x="2" y="84" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="rgba(255,255,255,0.5)" letter-spacing="1">Integrated Business Consulting</text>
+      </svg>
+    </div>
+
+    <div class="cover-tag">Propuesta de Consultoría</div>
+    <h1 class="cover-title">
+      <strong>Transformamos</strong> sus<br>
+      operaciones con el poder<br>
+      de la <strong>Inteligencia Artificial</strong>
+    </h1>
+    <p class="cover-sub">
+      Diagnosticamos cualquier problema de negocio, diseñamos la solución y la implementamos con herramientas de IA de clase mundial.
+    </p>
+    <div class="cover-line"></div>
+  </div>
+
+  <!-- ─── SLIDE 2: EL PROBLEMA ─── -->
+  <div class="slide" id="s2">
+    <div class="slide-header">
+      <div class="slide-eyebrow">El Desafío</div>
+      <h2 class="slide-title">Los negocios modernos enfrentan<br><span>fricciones operativas reales</span></h2>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">🔄</div>
+        <div class="pain-title">Procesos manuales y repetitivos</div>
+        <div class="pain-desc">Equipos gastando horas en tareas que una automatización inteligente podría ejecutar en segundos, sin errores.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📊</div>
+        <div class="pain-title">Decisiones sin datos en tiempo real</div>
+        <div class="pain-desc">Información dispersa en silos. Sin visibilidad operativa unificada, las decisiones llegan tarde o mal fundamentadas.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">⏱️</div>
+        <div class="pain-title">Tiempo desperdiciado en coordinación</div>
+        <div class="pain-desc">Reuniones, correos, seguimientos manuales que consumen el tiempo productivo del equipo sin generar valor directo.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📉</div>
+        <div class="pain-title">Crecimiento limitado por capacidad</div>
+        <div class="pain-desc">El crecimiento del negocio choca contra el límite de lo que el equipo puede operar manualmente sin escalar costos.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🔧</div>
+        <div class="pain-title">Sistemas que no se comunican</div>
+        <div class="pain-desc">Múltiples herramientas desconectadas generan trabajo doble, errores de datos y falta de trazabilidad.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🧩</div>
+        <div class="pain-title">Soluciones genéricas que no encajan</div>
+        <div class="pain-desc">Software estándar que obliga a la empresa a adaptarse a la herramienta, en lugar de al revés.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 3: QUIÉNES SOMOS ─── -->
+  <div class="slide" id="s3">
+    <div class="left">
+      <div class="slide-header">
+        <div class="slide-eyebrow">Quiénes Somos</div>
+        <h2 class="slide-title" style="color:white">Consultoría integrada con<br><span style="color:var(--magenta)">capacidad de ejecución real</span></h2>
+      </div>
+      <p class="desc">
+        Spingarn es una firma de consultoría de negocios que va más allá del diagnóstico. No solo identificamos el problema: lo resolvemos. Nuestro equipo combina experiencia en operaciones, estrategia y tecnología de IA para entregar soluciones funcionales, no solo recomendaciones.
+      </p>
+      <div class="pill-row">
+        <span class="pill">⚡ Diagnóstico rápido</span>
+        <span class="pill">🏗️ Diseño a medida</span>
+        <span class="pill">🤖 Implementación con IA</span>
+      </div>
+    </div>
+    <div class="right">
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Soluciones implementadas, no solo propuestas</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3x</div>
+        <div class="stat-label">Velocidad de entrega frente a consultoría tradicional</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">IA</div>
+        <div class="stat-label">En el núcleo de cada solución que construimos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 4: METODOLOGÍA ─── -->
+  <div class="slide" id="s4">
+    <div class="slide-header">
+      <div class="slide-eyebrow">Nuestra Metodología</div>
+      <h2 class="slide-title">Tres fases. <span>Un resultado concreto.</span></h2>
+    </div>
+    <div class="method-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-icon">🔍</div>
+        <div class="step-name"><span>Diagnóstico</span></div>
+        <div class="step-desc">Inmersión profunda en sus operaciones. Identificamos cuellos de botella, ineficiencias y oportunidades de mejora con un análisis estructurado de procesos y datos.</div>
+        <div class="step-tags">
+          <span class="step-tag">Entrevistas de proceso</span>
+          <span class="step-tag">Mapeo de flujos</span>
+          <span class="step-tag">Análisis de datos</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-icon">🏗️</div>
+        <div class="step-name"><span>Diseño</span> de solución</div>
+        <div class="step-desc">Diseñamos la arquitectura de la solución: qué automatizar, qué agente IA usar, cómo integrarlo con sus sistemas actuales y cuál es el ROI esperado.</div>
+        <div class="step-tags">
+          <span class="step-tag">Arquitectura de solución</span>
+          <span class="step-tag">Prototipo rápido</span>
+          <span class="step-tag">Plan de implementación</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-icon">🚀</div>
+        <div class="step-name"><span>Implementación</span> con IA</div>
+        <div class="step-desc">Construimos e implementamos la solución usando las herramientas más avanzadas de IA disponibles. Entregamos funcional, con capacitación y soporte incluidos.</div>
+        <div class="step-tags">
+          <span class="step-tag">Desarrollo con IA</span>
+          <span class="step-tag">Integración de sistemas</span>
+          <span class="step-tag">Transferencia de conocimiento</span>
+        </div>
+      </div>
+      <div class="step" style="border-radius:0 16px 16px 0">
+        <div class="step-num">04</div>
+        <div class="step-icon">📈</div>
+        <div class="step-name"><span>Escala</span> y evolución</div>
+        <div class="step-desc">Una vez probada la solución, la escalamos y evolucionamos junto con su negocio. El sistema aprende, mejora y se adapta a nuevos desafíos.</div>
+        <div class="step-tags">
+          <span class="step-tag">Monitoreo continuo</span>
+          <span class="step-tag">Iteración ágil</span>
+          <span class="step-tag">Expansión modular</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 5: HERRAMIENTAS IA ─── -->
+  <div class="slide" id="s5">
+    <div class="slide-header">
+      <div class="slide-eyebrow">Stack Tecnológico</div>
+      <h2 class="slide-title" style="color:white">Herramientas de <span style="color:var(--magenta)">IA de vanguardia</span><br>al servicio de su negocio</h2>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon-wrap">🤖</div>
+        <div>
+          <div class="tool-name">Agentes de IA Autónomos</div>
+          <div class="tool-desc">Sistemas inteligentes que ejecutan tareas complejas de forma autónoma: recopilan información, toman decisiones y actúan sobre sus sistemas sin intervención humana constante.</div>
+          <div class="tool-examples">
+            <span class="tool-ex">Agentes de análisis</span>
+            <span class="tool-ex">Agentes de comunicación</span>
+            <span class="tool-ex">Agentes de reporte</span>
+          </div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon-wrap">⚡</div>
+        <div>
+          <div class="tool-name">Automatizaciones Inteligentes</div>
+          <div class="tool-desc">Flujos de trabajo automatizados que conectan sus sistemas, procesan datos y ejecutan acciones basadas en reglas de negocio o señales de IA en tiempo real.</div>
+          <div class="tool-examples">
+            <span class="tool-ex">Workflows n8n / Make</span>
+            <span class="tool-ex">Integraciones API</span>
+            <span class="tool-ex">Triggers automáticos</span>
+          </div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon-wrap">💻</div>
+        <div>
+          <div class="tool-name">Claude Code & Desarrollo IA</div>
+          <div class="tool-desc">Construcción de software personalizado con asistencia de IA de última generación. Aplicaciones, dashboards y herramientas internas diseñadas específicamente para sus procesos.</div>
+          <div class="tool-examples">
+            <span class="tool-ex">Apps a medida</span>
+            <span class="tool-ex">Dashboards ejecutivos</span>
+            <span class="tool-ex">Herramientas internas</span>
+          </div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon-wrap">🧠</div>
+        <div>
+          <div class="tool-name">IA Generativa & LLMs</div>
+          <div class="tool-desc">Claude, GPT-4 y otros modelos de lenguaje integrados directamente en sus flujos: análisis de documentos, generación de reportes, asistentes internos y procesamiento de lenguaje natural.</div>
+          <div class="tool-examples">
+            <span class="tool-ex">Anthropic Claude</span>
+            <span class="tool-ex">Análisis documental</span>
+            <span class="tool-ex">Chatbots corporativos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 6: SERVICIOS ─── -->
+  <div class="slide" id="s6">
+    <div class="slide-header">
+      <div class="slide-eyebrow">Nuestros Servicios</div>
+      <h2 class="slide-title">Áreas donde <span>generamos impacto</span></h2>
+    </div>
+    <div class="services-layout">
+      <div class="service-list">
+        <div class="service-item sel" onclick="selectService(this, 0)">
+          <div class="svc-icon">⚙️</div>
+          <div>
+            <div class="svc-title">Optimización Operativa</div>
+            <div class="svc-desc">Rediseñamos y automatizamos los procesos clave de su operación para eliminar fricción y multiplicar la capacidad del equipo.</div>
+          </div>
+        </div>
+        <div class="service-item" onclick="selectService(this, 1)">
+          <div class="svc-icon">📊</div>
+          <div>
+            <div class="svc-title">Inteligencia de Datos</div>
+            <div class="svc-desc">Centralización de datos, dashboards ejecutivos en tiempo real y modelos predictivos para tomar decisiones con confianza.</div>
+          </div>
+        </div>
+        <div class="service-item" onclick="selectService(this, 2)">
+          <div class="svc-icon">🔗</div>
+          <div>
+            <div class="svc-title">Integración de Sistemas</div>
+            <div class="svc-desc">Conectamos sus herramientas existentes (ERP, CRM, Excel, APIs) en un ecosistema unificado y automatizado.</div>
+          </div>
+        </div>
+        <div class="service-item" onclick="selectService(this, 3)">
+          <div class="svc-icon">🚀</div>
+          <div>
+            <div class="svc-title">Transformación Digital</div>
+            <div class="svc-desc">Hoja de ruta integral de digitalización, desde el diagnóstico hasta la implementación de cada sistema nuevo que necesita su empresa.</div>
+          </div>
+        </div>
+      </div>
+      <div class="service-visual" id="svc-visual">
+        <div class="sv-label">Optimización Operativa</div>
+        <div class="sv-title">Haga más con el mismo equipo</div>
+        <div class="sv-bullet">Mapeo y rediseño de procesos críticos</div>
+        <div class="sv-bullet">Automatización de tareas repetitivas con IA</div>
+        <div class="sv-bullet">Reducción de ciclos de aprobación</div>
+        <div class="sv-bullet">KPIs operativos en tiempo real</div>
+        <div class="sv-bullet">Hasta 70% de reducción en tiempo manual</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 7: PROCESO DE TRABAJO ─── -->
+  <div class="slide" id="s7">
+    <div class="slide-header">
+      <div class="slide-eyebrow">Cómo Trabajamos</div>
+      <h2 class="slide-title" style="color:white">Del diagnóstico al resultado<br><span style="color:var(--magenta)">en semanas, no meses</span></h2>
+    </div>
+    <div class="process-timeline">
+      <div class="pt-step">
+        <div class="pt-circle">🤝</div>
+        <div class="pt-week">Semana 1</div>
+        <div class="pt-name">Discovery</div>
+        <div class="pt-desc">Reunión inicial, entendimiento del negocio y definición del alcance</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-circle">🔍</div>
+        <div class="pt-week">Semanas 1–2</div>
+        <div class="pt-name">Diagnóstico</div>
+        <div class="pt-desc">Análisis de procesos, datos e identificación de oportunidades</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-circle">📐</div>
+        <div class="pt-week">Semanas 2–3</div>
+        <div class="pt-name">Diseño</div>
+        <div class="pt-desc">Arquitectura de solución, roadmap y validación con el equipo</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-circle">⚡</div>
+        <div class="pt-week">Semanas 3–6</div>
+        <div class="pt-name">Build & Deploy</div>
+        <div class="pt-desc">Construcción e implementación con entregables semanales</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-circle">🎓</div>
+        <div class="pt-week">Semana 6–7</div>
+        <div class="pt-name">Transferencia</div>
+        <div class="pt-desc">Capacitación del equipo, documentación y entrega formal</div>
+      </div>
+      <div class="pt-step">
+        <div class="pt-circle">📈</div>
+        <div class="pt-week">Ongoing</div>
+        <div class="pt-name">Evolución</div>
+        <div class="pt-desc">Mejora continua, soporte y expansión de la solución</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 8: POR QUÉ SPINGARN ─── -->
+  <div class="slide" id="s8">
+    <div class="left">
+      <div class="slide-eyebrow">Nuestro Diferencial</div>
+      <h2 class="slide-title" style="font-size:clamp(26px,3vw,38px)">Por qué elegir<br><span>Spingarn IBC</span></h2>
+      <p class="desc">
+        No somos otra firma de consultores que entrega un PowerPoint y se va. Somos un equipo que se queda hasta que el problema está resuelto y funcionando.
+      </p>
+      <div class="quote-block">
+        "El problema de muchas consultoras es que diagnostican bien pero no saben implementar. Nosotros hacemos ambas cosas."
+        <div class="quote-author">— Spingarn, Integrated Business Consulting</div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="diff-card">
+        <div class="diff-icon">🎯</div>
+        <div class="diff-title">Enfoque en resultados</div>
+        <div class="diff-desc">Medimos nuestro éxito por el impacto real en su operación, no por horas facturadas o documentos entregados.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🤖</div>
+        <div class="diff-title">IA nativa</div>
+        <div class="diff-desc">Integramos IA en cada solución de forma práctica y funcional, no como buzzword sino como herramienta real.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">⚡</div>
+        <div class="diff-title">Velocidad de ejecución</div>
+        <div class="diff-desc">Ciclos cortos de entrega. Primeros resultados visibles en las primeras semanas, no después de meses de análisis.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🔧</div>
+        <div class="diff-title">Soluciones a medida</div>
+        <div class="diff-desc">Cada solución se diseña para su negocio específico. Adaptamos la tecnología a su realidad operativa.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">📚</div>
+        <div class="diff-title">Transferencia real</div>
+        <div class="diff-desc">Su equipo queda capacitado y empoderado para operar las soluciones de forma autónoma tras la entrega.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🌱</div>
+        <div class="diff-title">Evolución continua</div>
+        <div class="diff-desc">Las soluciones que construimos crecen con su negocio. No entregamos y desaparecemos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 9: CASO DE USO ─── -->
+  <div class="slide" id="s9">
+    <div class="slide-header">
+      <div class="slide-eyebrow">Ejemplo de Impacto</div>
+      <h2 class="slide-title" style="color:white">Así se ve una solución <span style="color:var(--magenta)">Spingarn en acción</span></h2>
+    </div>
+    <div class="case-grid">
+      <div class="case-col">
+        <div class="case-card">
+          <div class="case-label problem">⚠ El Problema</div>
+          <div class="case-text">
+            Empresa de servicios profesionales con 40 personas: coordinación de proyectos completamente manual vía correo y Excel. Sin visibilidad del estado real de cada cliente. Los líderes pasaban 12+ horas semanales en seguimiento.
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-label solution">⚡ La Solución Spingarn</div>
+          <div class="case-text">
+            Diagnóstico de procesos en 2 semanas → Diseño de sistema de gestión con IA integrada → Implementación de plataforma personalizada con agente IA para alertas predictivas y recomendaciones automáticas de acción → Capacitación de equipo.
+          </div>
+        </div>
+      </div>
+      <div class="case-col">
+        <div class="case-card" style="flex:0">
+          <div class="case-label result">📈 Resultados</div>
+          <div class="results-row" style="margin-top:16px">
+            <div class="result-item">
+              <div class="case-result-num magenta">−70%</div>
+              <div class="case-result-label">Tiempo en seguimiento manual</div>
+            </div>
+            <div class="result-item">
+              <div class="case-result-num green">3×</div>
+              <div class="case-result-label">Proyectos gestionados por líder</div>
+            </div>
+            <div class="result-item">
+              <div class="case-result-num magenta">6w</div>
+              <div class="case-result-label">De diagnóstico a producción</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-card" style="background:rgba(200,0,122,0.08); border-color:rgba(200,0,122,0.2)">
+          <div class="case-label" style="color:var(--magenta-light)">💡 Herramientas usadas</div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px">
+            <span class="tool-ex">Claude Code</span>
+            <span class="tool-ex">Agente IA predictivo</span>
+            <span class="tool-ex">Next.js + Supabase</span>
+            <span class="tool-ex">Dashboard en tiempo real</span>
+            <span class="tool-ex">Automatización de alertas</span>
+            <span class="tool-ex">API integrations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 10: CIERRE ─── -->
+  <div class="slide" id="s10">
+    <div class="bg-glow"></div>
+    <div class="close-content">
+      <svg width="180" height="54" viewBox="0 0 240 72" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 40px;display:block">
+        <text x="0" y="46" font-family="'Helvetica Neue', Arial, sans-serif" font-size="42" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
+        <text x="2" y="63" font-family="'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="rgba(255,255,255,0.4)" letter-spacing="1">Integrated Business Consulting</text>
+      </svg>
+
+      <div class="close-eyebrow">¿Listo para resolver su próximo desafío?</div>
+      <h2 class="close-title">
+        Hablemos de su<br>
+        <strong>operación</strong>
+      </h2>
+      <p class="close-sub">
+        Cuéntenos el problema. Nosotros diseñamos e implementamos la solución con inteligencia artificial.
+      </p>
+      <button class="cta-btn">Agendar una sesión de diagnóstico →</button>
+
+      <div class="contact-row">
+        <div class="contact-item">✉️ <span>dnarvaez@spingarn.ec</span></div>
+        <div class="contact-item">🌐 <span>spingarn.ec</span></div>
+        <div class="contact-item">📍 <span>Ecuador</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── NAVIGATION ─── -->
+<div class="nav">
+  <button class="nav-btn" onclick="prev()">‹</button>
+  <div class="nav-dots" id="dots"></div>
+  <button class="nav-btn" onclick="next()">›</button>
+</div>
+<div class="key-hint">← → espace para navegar</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+let cur = 0;
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => go(i);
+  dotsEl.appendChild(d);
+});
+
+function go(n) {
+  slides[cur].classList.remove('active');
+  dotsEl.children[cur].classList.remove('active');
+  cur = (n + slides.length) % slides.length;
+  slides[cur].classList.add('active');
+  dotsEl.children[cur].classList.add('active');
+}
+
+function next() { go(cur + 1); }
+function prev() { go(cur - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') next();
+  if (e.key === 'ArrowLeft') prev();
+});
+
+// Services slide interaction
+const svcData = [
+  {
+    label: 'Optimización Operativa',
+    title: 'Haga más con el mismo equipo',
+    bullets: ['Mapeo y rediseño de procesos críticos', 'Automatización de tareas repetitivas con IA', 'Reducción de ciclos de aprobación', 'KPIs operativos en tiempo real', 'Hasta 70% de reducción en tiempo manual']
+  },
+  {
+    label: 'Inteligencia de Datos',
+    title: 'Decisiones basadas en evidencia',
+    bullets: ['Centralización de fuentes de datos', 'Dashboards ejecutivos en tiempo real', 'Modelos predictivos con IA', 'Reportes automáticos y alertas', 'Análisis de tendencias del negocio']
+  },
+  {
+    label: 'Integración de Sistemas',
+    title: 'Un ecosistema conectado',
+    bullets: ['Conexión ERP, CRM, herramientas custom', 'APIs y webhooks entre plataformas', 'Eliminación de duplicación de datos', 'Flujos de datos automatizados', 'Trazabilidad completa de información']
+  },
+  {
+    label: 'Transformación Digital',
+    title: 'El futuro de su empresa, ahora',
+    bullets: ['Hoja de ruta de digitalización completa', 'Priorización de iniciativas por impacto', 'Implementación gradual y medible', 'Gestión del cambio organizacional', 'Capacitación técnica del equipo']
+  }
+];
+
+function selectService(el, idx) {
+  document.querySelectorAll('.service-item').forEach(s => s.classList.remove('sel'));
+  el.classList.add('sel');
+  const d = svcData[idx];
+  const v = document.getElementById('svc-visual');
+  v.innerHTML = `
+    <div class="sv-label">${d.label}</div>
+    <div class="sv-title">${d.title}</div>
+    ${d.bullets.map(b => `<div class="sv-bullet">${b}</div>`).join('')}
+  `;
+}
+</script>
+</body>
+</html>
