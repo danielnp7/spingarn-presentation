@@ -620,6 +620,8 @@
   }
   #s10 .contact-item span { color: rgba(255,255,255,0.7); }
 
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
   /* ─── KEYBOARD HINT ─── */
   .key-hint {
     position: fixed;
@@ -988,13 +990,6 @@
           </div>
         </div>
         <div class="service-item" onclick="selectService(this, 2)">
-          <div class="svc-icon">🔗</div>
-          <div>
-            <div class="svc-title">Integración de Sistemas</div>
-            <div class="svc-desc">Conectamos sus herramientas existentes (ERP, CRM, Excel, APIs) en un ecosistema unificado y automatizado.</div>
-          </div>
-        </div>
-        <div class="service-item" onclick="selectService(this, 3)">
           <div class="svc-icon">🚀</div>
           <div>
             <div class="svc-title">Transformación Digital</div>
@@ -1178,11 +1173,21 @@
       <p class="close-sub">
         Cuéntenos el problema. Nosotros diseñamos e implementamos la solución con inteligencia artificial.
       </p>
-      <button class="cta-btn">Agendar una sesión de diagnóstico →</button>
+      <button class="cta-btn" onclick="toggleContact()">Agendar una sesión de diagnóstico →</button>
 
-      <div class="contact-row">
-        <div class="contact-item">✉️ <span>dnarvaez@spingarn.ec</span></div>
-        <div class="contact-item">🌐 <span>spingarn.ec</span></div>
+      <div id="contact-details" style="display:none; margin-top:32px; animation: fadeIn 0.4s ease;">
+        <div class="contact-row" style="flex-wrap:wrap; gap:20px;">
+          <a href="mailto:dnarvaez@spingarn.ec" class="contact-item" style="color:rgba(255,255,255,0.8); text-decoration:none;">
+            ✉️ <span>dnarvaez@spingarn.ec</span>
+          </a>
+          <a href="https://wa.me/593995655876" target="_blank" class="contact-item" style="color:rgba(255,255,255,0.8); text-decoration:none;">
+            📱 <span>+593 99 565 5876</span>
+          </a>
+          <div class="contact-item">🌐 <span>spingarn.ec</span></div>
+        </div>
+      </div>
+
+      <div class="contact-row" style="margin-top:24px;">
         <div class="contact-item">📍 <span>Ecuador</span></div>
       </div>
     </div>
@@ -1240,16 +1245,16 @@ const svcData = [
     bullets: ['Centralización de fuentes de datos', 'Dashboards ejecutivos en tiempo real', 'Modelos predictivos con IA', 'Reportes automáticos y alertas', 'Análisis de tendencias del negocio']
   },
   {
-    label: 'Integración de Sistemas',
-    title: 'Un ecosistema conectado',
-    bullets: ['Conexión ERP, CRM, herramientas custom', 'APIs y webhooks entre plataformas', 'Eliminación de duplicación de datos', 'Flujos de datos automatizados', 'Trazabilidad completa de información']
-  },
-  {
     label: 'Transformación Digital',
     title: 'El futuro de su empresa, ahora',
     bullets: ['Hoja de ruta de digitalización completa', 'Priorización de iniciativas por impacto', 'Implementación gradual y medible', 'Gestión del cambio organizacional', 'Capacitación técnica del equipo']
   }
 ];
+
+function toggleContact() {
+  const el = document.getElementById('contact-details');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
 
 function selectService(el, idx) {
   document.querySelectorAll('.service-item').forEach(s => s.classList.remove('sel'));
