@@ -542,29 +542,27 @@
   /* ─── SLIDE 10: CIERRE ─── */
   #s10 {
     background: var(--dark);
-    justify-content: center;
-    align-items: center;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    padding: 80px 10%;
+    overflow-y: auto;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    padding: 0 !important;
   }
   #s10 .bg-glow {
-    position: absolute;
+    position: fixed;
     width: 600px; height: 600px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(200,0,122,0.15) 0%, transparent 70%);
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 0;
+    pointer-events: none;
   }
   #s10 .close-content {
-    position: relative;
-    z-index: 2;
+    padding: 80px 10%;
     width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    display: block;
+    box-sizing: border-box;
   }
   #s10 .close-eyebrow {
     font-size: 12px;
