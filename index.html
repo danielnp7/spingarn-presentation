@@ -547,6 +547,7 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    padding: 80px 10%;
   }
   #s10 .bg-glow {
     position: absolute;
@@ -555,8 +556,16 @@
     background: radial-gradient(circle, rgba(200,0,122,0.15) 0%, transparent 70%);
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 0;
   }
-  #s10 .close-content { position: relative; z-index: 1; width: 90%; max-width: 640px; }
+  #s10 .close-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    display: block;
+  }
   #s10 .close-eyebrow {
     font-size: 12px;
     letter-spacing: 4px;
@@ -622,15 +631,6 @@
     color: rgba(255,255,255,0.2);
     z-index: 100;
     letter-spacing: 1px;
-  }
-
-  /* ─── SLIDE 10 FIX: close-content needs explicit width ─── */
-  #s10 .close-content {
-    position: relative;
-    z-index: 1;
-    width: 90%;
-    max-width: 640px;
-    margin: 0 auto;
   }
 
   /* ─── MOBILE RESPONSIVE ────────────────────────────────────── */
