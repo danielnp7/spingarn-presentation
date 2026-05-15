@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spingarn — Integrated Business Consulting</title>
+<title>Spingarn Amplifier</title>
 <style>
   :root {
     --magenta: #C8007A;
@@ -86,9 +86,6 @@
   }
   .dot.active { background: var(--magenta); width: 20px; border-radius: 3px; }
 
-  /* ─── LOGO SVG ─── */
-  .logo-svg { display: block; }
-
   /* ─── SLIDE 1: COVER ─── */
   #s1 {
     background: var(--dark);
@@ -98,12 +95,12 @@
     overflow: hidden;
     position: relative;
   }
-  #s1 .bg-triangles {
+  #s1 .bg-waveform {
     position: absolute;
-    right: -40px; top: -60px;
-    width: 55%;
-    height: 110%;
-    opacity: 0.12;
+    right: 0; top: 0;
+    width: 52%;
+    height: 100%;
+    opacity: 0.07;
   }
   #s1 .bg-accent {
     position: absolute;
@@ -125,15 +122,16 @@
     font-weight: 300;
     color: var(--white);
     line-height: 1.15;
-    max-width: 680px;
+    max-width: 720px;
     margin-bottom: 28px;
   }
   #s1 .cover-title strong { font-weight: 700; color: var(--white); }
+  #s1 .cover-title .highlight { color: var(--magenta); font-weight: 700; }
   #s1 .cover-sub {
     font-size: 18px;
     color: rgba(255,255,255,0.5);
-    max-width: 520px;
-    line-height: 1.6;
+    max-width: 560px;
+    line-height: 1.65;
     font-weight: 300;
     margin-bottom: 56px;
   }
@@ -142,14 +140,8 @@
     background: var(--magenta);
   }
 
-  /* ─── SLIDE 2: PROBLEMA ─── */
-  #s2 {
-    background: var(--white);
-    padding: 72px 10%;
-  }
-  .slide-header {
-    margin-bottom: 48px;
-  }
+  /* ─── SHARED SLIDE STYLES ─── */
+  .slide-header { margin-bottom: 48px; }
   .slide-eyebrow {
     font-size: 12px;
     letter-spacing: 4px;
@@ -165,6 +157,12 @@
     line-height: 1.1;
   }
   .slide-title span { color: var(--magenta); }
+
+  /* ─── SLIDE 2: POTENCIAL NO CAPTURADO ─── */
+  #s2 {
+    background: var(--white);
+    padding: 72px 10%;
+  }
   .pain-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -180,21 +178,12 @@
     position: relative;
     overflow: hidden;
   }
-  .pain-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 0;
-    background: var(--magenta);
-    opacity: 0.04;
-    transition: height 0.3s;
-  }
   .pain-card:hover { border-left-color: var(--magenta); }
   .pain-icon { font-size: 32px; margin-bottom: 16px; }
   .pain-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
   .pain-desc { font-size: 14px; color: var(--gray); line-height: 1.6; }
 
-  /* ─── SLIDE 3: QUIÉNES SOMOS ─── */
+  /* ─── SLIDE 3: VISIÓN ─── */
   #s3 {
     background: var(--dark);
     padding: 72px 10%;
@@ -298,7 +287,7 @@
     width: fit-content;
   }
 
-  /* ─── SLIDE 5: IA & HERRAMIENTAS ─── */
+  /* ─── SLIDE 5: EL AMPLIFICADOR ─── */
   #s5 {
     background: var(--dark);
     padding: 64px 10%;
@@ -347,7 +336,7 @@
   #s5 .slide-title { color: var(--white); }
   #s5 .slide-eyebrow { color: var(--magenta); }
 
-  /* ─── SLIDE 6: SERVICIOS ─── */
+  /* ─── SLIDE 6: PALANCAS ─── */
   #s6 {
     background: var(--white);
     padding: 64px 10%;
@@ -454,7 +443,7 @@
   .pt-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
   .pt-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.55; max-width: 120px; }
 
-  /* ─── SLIDE 8: POR QUÉ SPINGARN ─── */
+  /* ─── SLIDE 8: DIFERENCIAL ─── */
   #s8 {
     background: var(--white);
     padding: 64px 10%;
@@ -499,7 +488,7 @@
     margin-top: 12px;
   }
 
-  /* ─── SLIDE 9: CASO DE USO ─── */
+  /* ─── SLIDE 9: CASO ─── */
   #s9 {
     background: var(--dark);
     padding: 64px 10%;
@@ -583,7 +572,7 @@
   #s10 .close-sub {
     font-size: 18px;
     color: rgba(255,255,255,0.45);
-    max-width: 480px;
+    max-width: 520px;
     margin: 0 auto 48px;
     line-height: 1.65;
     font-weight: 300;
@@ -633,29 +622,18 @@
     letter-spacing: 1px;
   }
 
-  /* ─── MOBILE RESPONSIVE ────────────────────────────────────── */
+  /* ─── MOBILE ─── */
   @media (max-width: 768px) {
-
-    /* Allow slides to scroll internally on mobile */
-    .slide.active {
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* Navigation: smaller + more bottom space */
+    .slide.active { overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .nav { bottom: 12px; gap: 10px; }
     .nav-btn { width: 38px; height: 38px; font-size: 16px; }
     .dot { width: 5px; height: 5px; }
     .key-hint { display: none; }
-
-    /* Reserve space for nav at bottom of every slide */
     .slide { padding-bottom: 72px !important; }
 
-    /* ── S1: Portada ── */
     #s1 { padding: 40px 6% 80px; }
-    #s1 .bg-triangles { opacity: 0.06; width: 100%; right: 0; }
+    #s1 .bg-waveform { opacity: 0.04; width: 100%; }
 
-    /* ── S2: Problema ── */
     #s2 { padding: 36px 5% 80px; }
     .slide-header { margin-bottom: 28px; }
     .slide-title { font-size: clamp(22px, 5.5vw, 36px); }
@@ -665,7 +643,6 @@
     .pain-title { font-size: 13px; margin-bottom: 6px; }
     .pain-desc { font-size: 12px; }
 
-    /* ── S3: Quiénes somos ── */
     #s3 { flex-direction: column; padding: 36px 5% 80px; gap: 28px; align-items: stretch; }
     #s3 .right { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 12px; }
     .stat-box { flex: 1; min-width: 130px; padding: 18px 16px; }
@@ -673,7 +650,6 @@
     #s3 .desc { font-size: 15px; margin-bottom: 20px; }
     .pill { font-size: 12px; padding: 6px 12px; }
 
-    /* ── S4: Metodología ── */
     #s4 { padding: 36px 5% 80px; }
     .method-steps { flex-direction: column; margin-top: 24px; gap: 0; }
     .step { padding: 22px 18px; border-radius: 0 !important; }
@@ -684,7 +660,6 @@
     .step-name { font-size: 16px; }
     .step-desc { font-size: 13px; }
 
-    /* ── S5: Herramientas IA ── */
     #s5 { padding: 36px 5% 80px; }
     .tools-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 28px; }
     .tool-card { padding: 20px 18px; gap: 16px; }
@@ -692,7 +667,6 @@
     .tool-name { font-size: 15px; }
     .tool-desc { font-size: 13px; }
 
-    /* ── S6: Servicios ── */
     #s6 { padding: 36px 5% 80px; }
     .services-layout { flex-direction: column; gap: 20px; margin-top: 28px; }
     .service-visual { width: 100%; padding: 24px; }
@@ -700,7 +674,6 @@
     .svc-title { font-size: 14px; }
     .svc-desc { font-size: 12px; }
 
-    /* ── S7: Proceso ── */
     #s7 { padding: 36px 5% 80px; }
     .process-timeline { flex-direction: column; gap: 0; align-items: stretch; margin-top: 28px; }
     .process-timeline::before { display: none; }
@@ -711,7 +684,6 @@
     .pt-name { font-size: 14px; margin-bottom: 2px; }
     .pt-desc { font-size: 12px; max-width: none; }
 
-    /* ── S8: Por qué Spingarn ── */
     #s8 { flex-direction: column; padding: 36px 5% 80px; gap: 28px; align-items: stretch; }
     #s8 .right { grid-template-columns: 1fr 1fr; gap: 12px; }
     .diff-card { padding: 20px 16px; }
@@ -721,7 +693,6 @@
     #s8 .desc { font-size: 14px; margin-bottom: 20px; }
     .quote-block { font-size: 15px; }
 
-    /* ── S9: Caso de uso ── */
     #s9 { padding: 36px 5% 80px; }
     .case-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
     .case-card { padding: 18px; }
@@ -730,7 +701,6 @@
     .case-result-num { font-size: 36px; }
     .case-result-label { font-size: 12px; }
 
-    /* ── S10: Cierre ── */
     #s10 { padding: 40px 0 80px; }
     #s10 .close-title { font-size: clamp(26px, 7vw, 44px); }
     #s10 .close-sub { font-size: 15px; margin-bottom: 32px; }
@@ -752,105 +722,107 @@
 
   <!-- ─── SLIDE 1: PORTADA ─── -->
   <div class="slide active" id="s1">
-    <svg class="bg-triangles" viewBox="0 0 600 700" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="300,40 580,560 20,560" stroke="#C8007A" stroke-width="1.5" fill="none" opacity="0.6"/>
-      <polygon points="320,80 560,520 80,520" stroke="#1A1A1A" stroke-width="1" fill="none" opacity="0.4"/>
-      <polygon points="340,120 540,480 140,480" stroke="#C8007A" stroke-width="0.8" fill="none" opacity="0.3"/>
-      <polygon points="360,160 520,440 200,440" stroke="#555" stroke-width="0.6" fill="none" opacity="0.2"/>
-      <polygon points="380,200 500,400 260,400" stroke="#C8007A" stroke-width="0.5" fill="none" opacity="0.15"/>
+    <!-- Waveform / amplifier signal background -->
+    <svg class="bg-waveform" viewBox="0 0 500 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="350" x2="500" y2="350" stroke="#C8007A" stroke-width="1" opacity="0.4"/>
+      <polyline points="0,350 40,350 60,200 80,500 100,280 120,420 140,350 180,350 210,120 240,580 270,300 300,400 330,350 370,350 400,180 430,520 460,320 480,380 500,350"
+        stroke="#C8007A" stroke-width="1.5" fill="none" opacity="0.7"/>
+      <polyline points="0,350 30,350 55,240 75,460 95,300 115,400 135,350 165,350 195,160 225,540 255,310 285,390 315,350 355,350 385,210 415,490 445,330 470,370 500,350"
+        stroke="#C8007A" stroke-width="0.8" fill="none" opacity="0.3"/>
+      <!-- Amplified version on right -->
+      <polyline points="250,350 280,350 310,80 340,620 370,260 400,440 430,350 500,350"
+        stroke="#C8007A" stroke-width="2.5" fill="none" opacity="0.9"/>
     </svg>
     <div class="bg-accent"></div>
 
     <div class="cover-logo">
-      <!-- Spingarn Logo SVG (inline recreation) -->
-      <svg width="240" height="72" viewBox="0 0 320 96" xmlns="http://www.w3.org/2000/svg">
-        <!-- Wordmark -->
-        <text x="0" y="62" font-family="'Helvetica Neue', Arial, sans-serif" font-size="56" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
-        <!-- Tagline -->
-        <text x="2" y="84" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="rgba(255,255,255,0.5)" letter-spacing="1">Integrated Business Consulting</text>
+      <svg width="260" height="72" viewBox="0 0 340 96" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="62" font-family="'Helvetica Neue', Arial, sans-serif" font-size="52" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
+        <text x="2" y="84" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#C8007A" letter-spacing="3">AMPLIFIER</text>
       </svg>
     </div>
 
-    <div class="cover-tag">Propuesta de Consultoría</div>
+    <div class="cover-tag">Consultoría de Amplificación de Resultados</div>
     <h1 class="cover-title">
-      <strong>Entendemos</strong> su negocio.<br>
-      Diseñamos la solución.<br>
-      La ejecutamos con <strong>IA</strong>.
+      Todo lo que hacemos tiene<br>
+      un único horizonte:<br>
+      <span class="highlight">amplificar sus resultados.</span>
     </h1>
     <p class="cover-sub">
-      Comenzamos donde otros no llegan: con un diagnóstico riguroso del problema real. Luego diseñamos e implementamos soluciones que mejoran la eficiencia operativa, el retorno sobre inversión y la rentabilidad del negocio.
+      Combinamos diagnóstico estratégico e implementación tecnológica con IA para amplificar las líneas de resultado que más importan — medidas, ante todo, por el retorno sobre el capital invertido.
     </p>
     <div class="cover-line"></div>
   </div>
 
-  <!-- ─── SLIDE 2: EL PROBLEMA ─── -->
+  <!-- ─── SLIDE 2: POTENCIAL NO CAPTURADO ─── -->
   <div class="slide" id="s2">
     <div class="slide-header">
-      <div class="slide-eyebrow">El Desafío</div>
-      <h2 class="slide-title">Los negocios modernos enfrentan<br><span>fricciones operativas reales</span></h2>
+      <div class="slide-eyebrow">El Punto de Partida</div>
+      <h2 class="slide-title">La mayoría de negocios operan<br><span>por debajo de su potencial real</span></h2>
     </div>
     <div class="pain-grid">
       <div class="pain-card">
+        <div class="pain-icon">📉</div>
+        <div class="pain-title">ROIC por debajo del costo de capital</div>
+        <div class="pain-desc">El capital invertido no genera el retorno que debería. Las ineficiencias operativas erosionan el margen antes de que llegue a la línea final.</div>
+      </div>
+      <div class="pain-card">
         <div class="pain-icon">🔄</div>
-        <div class="pain-title">Procesos manuales y repetitivos</div>
-        <div class="pain-desc">Equipos gastando horas en tareas que una automatización inteligente podría ejecutar en segundos, sin errores.</div>
+        <div class="pain-title">Operación que consume más de lo que genera</div>
+        <div class="pain-desc">Procesos manuales, retrabajo y coordinación ineficiente convierten horas de equipo en fricción, no en valor. El costo operativo crece más rápido que el ingreso.</div>
       </div>
       <div class="pain-card">
         <div class="pain-icon">📊</div>
-        <div class="pain-title">Decisiones sin datos en tiempo real</div>
-        <div class="pain-desc">Información dispersa en silos. Sin visibilidad operativa unificada, las decisiones llegan tarde o mal fundamentadas.</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">⏱️</div>
-        <div class="pain-title">Tiempo desperdiciado en coordinación</div>
-        <div class="pain-desc">Reuniones, correos, seguimientos manuales que consumen el tiempo productivo del equipo sin generar valor directo.</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">📉</div>
-        <div class="pain-title">Rentabilidad que no refleja el potencial</div>
-        <div class="pain-desc">Ineficiencias operativas no visibles erosionan el margen, el EBITDA y el retorno. El negocio crece en volumen pero no en rentabilidad.</div>
-      </div>
-      <div class="pain-card">
-        <div class="pain-icon">🔧</div>
-        <div class="pain-title">Sistemas que no se comunican</div>
-        <div class="pain-desc">Múltiples herramientas desconectadas generan trabajo doble, errores de datos y falta de trazabilidad.</div>
+        <div class="pain-title">Decisiones sin visibilidad real</div>
+        <div class="pain-desc">Sin datos integrados y en tiempo real, cada decisión operativa tiene un costo oculto: lentitud, imprecisión y oportunidades perdidas.</div>
       </div>
       <div class="pain-card">
         <div class="pain-icon">🧩</div>
-        <div class="pain-title">Soluciones genéricas que no encajan</div>
-        <div class="pain-desc">Software estándar que obliga a la empresa a adaptarse a la herramienta, en lugar de al revés.</div>
+        <div class="pain-title">Sistemas que no escalan con el negocio</div>
+        <div class="pain-desc">Herramientas desconectadas, hojas de cálculo y software genérico que frenan el crecimiento en lugar de acelerarlo.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">⏳</div>
+        <div class="pain-title">Capital humano mal asignado</div>
+        <div class="pain-desc">Talento clave atrapado en tareas repetitivas y seguimientos manuales. El recurso más caro de la empresa no trabaja en lo que más importa.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🎯</div>
+        <div class="pain-title">Iniciativas sin medición de impacto</div>
+        <div class="pain-desc">Proyectos que se ejecutan sin una línea base clara ni métricas de retorno. Se invierte capital sin saber cuánto amplificó el resultado.</div>
       </div>
     </div>
   </div>
 
-  <!-- ─── SLIDE 3: QUIÉNES SOMOS ─── -->
+  <!-- ─── SLIDE 3: NUESTRA VISIÓN ─── -->
   <div class="slide" id="s3">
     <div class="left">
       <div class="slide-header">
-        <div class="slide-eyebrow">Quiénes Somos</div>
-        <h2 class="slide-title" style="color:white">Consultoría de negocio con<br><span style="color:var(--magenta)">profundidad estratégica y ejecución real</span></h2>
+        <div class="slide-eyebrow">Spingarn Amplifier</div>
+        <h2 class="slide-title" style="color:white">Existimos para <span style="color:var(--magenta)">amplificar</span> lo que su capital y su equipo pueden producir</h2>
       </div>
       <p class="desc">
-        Spingarn es una firma de consultoría especializada en entender el problema de fondo antes de proponer cualquier solución. Combinamos rigor analítico, diseño estratégico y tecnología de IA para generar cambios reales y sostenibles en toda la organización — no solo en un proceso aislado.
+        Spingarn Amplifier es una consultora cuya razón de ser es una sola: amplificar los resultados de sus clientes. Cada proyecto que tomamos tiene que demostrar, de forma medible, cómo mueve las líneas que importan — eficiencia operativa, margen, capacidad y, sobre todo, retorno sobre el capital invertido (ROIC). Si no podemos justificar el impacto, no lo hacemos.
       </p>
       <div class="pill-row">
-        <span class="pill">🔍 Diagnóstico profundo</span>
-        <span class="pill">🏗️ Diseño estratégico</span>
+        <span class="pill">🔍 Diagnóstico de fondo</span>
+        <span class="pill">📐 Diseño de impacto</span>
         <span class="pill">🤖 Ejecución con IA</span>
+        <span class="pill">📈 ROIC como norte</span>
       </div>
     </div>
     <div class="right">
       <div class="stat-box">
-        <div class="stat-num">ROI</div>
-        <div class="stat-label">Medible desde el diseño: eficiencia, margen y EBITDA como objetivos del proyecto</div>
+        <div class="stat-num">ROIC</div>
+        <div class="stat-label">Retorno sobre Capital Invertido — la métrica primaria de todo proyecto Spingarn</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Soluciones diseñadas a la medida del cliente, nunca genéricas</div>
+        <div class="stat-num">×</div>
+        <div class="stat-label">Amplificamos: margen, capacidad operativa, velocidad de decisión y eficiencia de capital</div>
       </div>
       <div class="stat-box">
         <div class="stat-num">IA</div>
-        <div class="stat-label">Como herramienta de ejecución, no como fin en sí misma</div>
+        <div class="stat-label">Tecnología como mecanismo de amplificación — no como fin, sino como el instrumento que escala el resultado</div>
       </div>
     </div>
   </div>
@@ -858,96 +830,96 @@
   <!-- ─── SLIDE 4: METODOLOGÍA ─── -->
   <div class="slide" id="s4">
     <div class="slide-header">
-      <div class="slide-eyebrow">Nuestra Metodología</div>
-      <h2 class="slide-title">El diagnóstico y el diseño <span>son el trabajo más importante.</span></h2>
+      <div class="slide-eyebrow">Metodología Amplifier</div>
+      <h2 class="slide-title">Primero entendemos qué amplificar.<br><span>Luego lo ejecutamos con precisión.</span></h2>
     </div>
     <div class="method-steps">
       <div class="step" style="border-top: 3px solid var(--magenta);">
         <div class="step-num">01</div>
         <div class="step-icon">🔍</div>
-        <div class="step-name"><span>Diagnóstico</span> profundo</div>
-        <div class="step-desc">Nos sumergimos en su negocio para entender el problema real, no el síntoma. Mapeamos procesos, entrevistamos equipos y analizamos datos para identificar las causas raíz y las oportunidades con mayor impacto.</div>
+        <div class="step-name"><span>Diagnóstico</span> de amplitud</div>
+        <div class="step-desc">Identificamos exactamente dónde está el capital no capturado: qué procesos erosionan el margen, qué ineficiencias limitan el ROIC, qué decisiones se toman sin visibilidad. Solo entonces sabemos qué amplificar.</div>
         <div class="step-tags">
-          <span class="step-tag">Entrevistas de proceso</span>
-          <span class="step-tag">Mapeo de flujos</span>
-          <span class="step-tag">Análisis de causa raíz</span>
+          <span class="step-tag">Línea base de ROIC</span>
+          <span class="step-tag">Mapeo de ineficiencias</span>
+          <span class="step-tag">Identificación de palancas</span>
         </div>
       </div>
       <div class="step" style="border-top: 3px solid var(--magenta);">
         <div class="step-num">02</div>
-        <div class="step-icon">🏗️</div>
-        <div class="step-name"><span>Diseño</span> estratégico</div>
-        <div class="step-desc">Diseñamos la solución considerando el impacto en toda la organización: personas, procesos y sistemas. Definimos qué cambiar, qué automatizar y cómo medir el éxito antes de escribir una sola línea de código.</div>
+        <div class="step-icon">📐</div>
+        <div class="step-name"><span>Diseño</span> de impacto</div>
+        <div class="step-desc">Diseñamos la solución definiendo su impacto en ROIC antes de ejecutar. Qué cambia, qué se automatiza, cómo se mide el retorno. Cada decisión de diseño se evalúa contra su efecto en el resultado final.</div>
         <div class="step-tags">
-          <span class="step-tag">Diseño organizacional</span>
+          <span class="step-tag">Proyección de ROIC</span>
           <span class="step-tag">Arquitectura de solución</span>
-          <span class="step-tag">Roadmap de impacto</span>
+          <span class="step-tag">Métricas de amplificación</span>
         </div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <div class="step-icon">🚀</div>
+        <div class="step-icon">⚡</div>
         <div class="step-name"><span>Implementación</span> con IA</div>
-        <div class="step-desc">Construimos e implementamos la solución usando las herramientas más avanzadas de IA disponibles. Entregamos funcional, con capacitación y soporte incluidos.</div>
+        <div class="step-desc">Construimos e implementamos usando las herramientas de IA más avanzadas disponibles. La tecnología amplifica lo que el equipo puede producir — más output con el mismo o menor costo de capital humano.</div>
         <div class="step-tags">
-          <span class="step-tag">Desarrollo con IA</span>
+          <span class="step-tag">Automatización inteligente</span>
+          <span class="step-tag">Agentes de IA</span>
           <span class="step-tag">Integración de sistemas</span>
-          <span class="step-tag">Transferencia de conocimiento</span>
         </div>
       </div>
       <div class="step" style="border-radius:0 16px 16px 0">
         <div class="step-num">04</div>
         <div class="step-icon">📈</div>
-        <div class="step-name"><span>Escala</span> y evolución</div>
-        <div class="step-desc">Una vez probada la solución, la escalamos y evolucionamos junto con su negocio. El sistema aprende, mejora y se adapta a nuevos desafíos.</div>
+        <div class="step-name"><span>Medición</span> y escala</div>
+        <div class="step-desc">Medimos el impacto real versus la proyección de ROIC. Escalamos lo que funciona, ajustamos lo que no. La amplificación es continua, no un proyecto puntual.</div>
         <div class="step-tags">
-          <span class="step-tag">Monitoreo continuo</span>
-          <span class="step-tag">Iteración ágil</span>
+          <span class="step-tag">Validación de ROIC</span>
+          <span class="step-tag">Dashboard de resultados</span>
           <span class="step-tag">Expansión modular</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ─── SLIDE 5: HERRAMIENTAS IA ─── -->
+  <!-- ─── SLIDE 5: EL AMPLIFICADOR ─── -->
   <div class="slide" id="s5">
     <div class="slide-header">
-      <div class="slide-eyebrow">Stack Tecnológico</div>
-      <h2 class="slide-title" style="color:white">Herramientas de <span style="color:var(--magenta)">IA de vanguardia</span><br>al servicio de su negocio</h2>
+      <div class="slide-eyebrow">El Amplificador Tecnológico</div>
+      <h2 class="slide-title" style="color:white">La IA es el mecanismo que <span style="color:var(--magenta)">escala el resultado</span><br>sin escalar el costo</h2>
     </div>
     <div class="tools-grid">
       <div class="tool-card">
         <div class="tool-icon-wrap">🤖</div>
         <div>
           <div class="tool-name">Agentes de IA Autónomos</div>
-          <div class="tool-desc">Sistemas inteligentes que ejecutan tareas complejas de forma autónoma: recopilan información, toman decisiones y actúan sobre sus sistemas sin intervención humana constante.</div>
+          <div class="tool-desc">Sistemas que ejecutan trabajo complejo de forma continua: analizan datos, generan reportes, coordinan procesos y toman decisiones dentro de reglas definidas — sin costo marginal por unidad de trabajo.</div>
           <div class="tool-examples">
             <span class="tool-ex">Agentes de análisis</span>
-            <span class="tool-ex">Agentes de comunicación</span>
-            <span class="tool-ex">Agentes de reporte</span>
+            <span class="tool-ex">Agentes de coordinación</span>
+            <span class="tool-ex">Agentes de monitoreo</span>
           </div>
         </div>
       </div>
       <div class="tool-card">
         <div class="tool-icon-wrap">⚡</div>
         <div>
-          <div class="tool-name">Automatizaciones Inteligentes</div>
-          <div class="tool-desc">Flujos de trabajo automatizados que conectan sus sistemas, procesan datos y ejecutan acciones basadas en reglas de negocio o señales de IA en tiempo real.</div>
+          <div class="tool-name">Automatización Inteligente</div>
+          <div class="tool-desc">Flujos que conectan sistemas, eliminan retrabajo y ejecutan procesos que antes requerían horas de equipo. Cada automatización es una palanca directa sobre la eficiencia del capital humano.</div>
           <div class="tool-examples">
             <span class="tool-ex">Workflows n8n / Make</span>
             <span class="tool-ex">Integraciones API</span>
-            <span class="tool-ex">Triggers automáticos</span>
+            <span class="tool-ex">Triggers en tiempo real</span>
           </div>
         </div>
       </div>
       <div class="tool-card">
         <div class="tool-icon-wrap">💻</div>
         <div>
-          <div class="tool-name">Claude Code & Desarrollo IA</div>
-          <div class="tool-desc">Construcción de software personalizado con asistencia de IA de última generación. Aplicaciones, dashboards y herramientas internas diseñadas específicamente para sus procesos.</div>
+          <div class="tool-name">Desarrollo con Claude Code</div>
+          <div class="tool-desc">Software personalizado construido con IA de última generación. Aplicaciones, dashboards y herramientas internas diseñadas exactamente para amplificar sus procesos específicos — no adaptaciones de software genérico.</div>
           <div class="tool-examples">
             <span class="tool-ex">Apps a medida</span>
-            <span class="tool-ex">Dashboards ejecutivos</span>
+            <span class="tool-ex">Dashboards de ROIC</span>
             <span class="tool-ex">Herramientas internas</span>
           </div>
         </div>
@@ -956,176 +928,176 @@
         <div class="tool-icon-wrap">🧠</div>
         <div>
           <div class="tool-name">IA Generativa & LLMs</div>
-          <div class="tool-desc">Claude, GPT-4 y otros modelos de lenguaje integrados directamente en sus flujos: análisis de documentos, generación de reportes, asistentes internos y procesamiento de lenguaje natural.</div>
+          <div class="tool-desc">Modelos de lenguaje integrados directamente en sus flujos operativos: análisis de documentos, síntesis de información, generación de reportes ejecutivos y asistentes internos que amplifican la capacidad analítica del equipo.</div>
           <div class="tool-examples">
             <span class="tool-ex">Anthropic Claude</span>
             <span class="tool-ex">Análisis documental</span>
-            <span class="tool-ex">Chatbots corporativos</span>
+            <span class="tool-ex">Reportes automáticos</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ─── SLIDE 6: SERVICIOS ─── -->
+  <!-- ─── SLIDE 6: PALANCAS DE AMPLIFICACIÓN ─── -->
   <div class="slide" id="s6">
     <div class="slide-header">
-      <div class="slide-eyebrow">Nuestros Servicios</div>
-      <h2 class="slide-title">Áreas donde <span>generamos impacto</span></h2>
+      <div class="slide-eyebrow">Palancas de Amplificación</div>
+      <h2 class="slide-title">Dónde intervenimos para <span>mover el resultado</span></h2>
     </div>
     <div class="services-layout">
       <div class="service-list">
         <div class="service-item sel" onclick="selectService(this, 0)">
           <div class="svc-icon">⚙️</div>
           <div>
-            <div class="svc-title">Optimización Operativa</div>
-            <div class="svc-desc">Rediseñamos y automatizamos los procesos clave de su operación para eliminar fricción y multiplicar la capacidad del equipo.</div>
+            <div class="svc-title">Eficiencia Operativa</div>
+            <div class="svc-desc">Eliminamos fricción de los procesos clave para que el mismo capital humano produzca significativamente más — impacto directo en margen y ROIC.</div>
           </div>
         </div>
         <div class="service-item" onclick="selectService(this, 1)">
           <div class="svc-icon">📊</div>
           <div>
-            <div class="svc-title">Inteligencia de Datos</div>
-            <div class="svc-desc">Centralización de datos, dashboards ejecutivos en tiempo real y modelos predictivos para tomar decisiones con confianza.</div>
+            <div class="svc-title">Inteligencia de Capital</div>
+            <div class="svc-desc">Visibilidad en tiempo real de cómo se está empleando el capital invertido, qué genera retorno y dónde se están destruyendo resultados.</div>
           </div>
         </div>
         <div class="service-item" onclick="selectService(this, 2)">
           <div class="svc-icon">🚀</div>
           <div>
-            <div class="svc-title">Transformación Digital</div>
-            <div class="svc-desc">Hoja de ruta integral de digitalización, desde el diagnóstico hasta la implementación de cada sistema nuevo que necesita su empresa.</div>
+            <div class="svc-title">Transformación de Capacidad</div>
+            <div class="svc-desc">Digitalización e implementación de IA que amplía la capacidad de entrega sin ampliar proporcionalmente la estructura de costos.</div>
           </div>
         </div>
       </div>
       <div class="service-visual" id="svc-visual">
-        <div class="sv-label">Optimización Operativa</div>
-        <div class="sv-title">Haga más con el mismo equipo</div>
-        <div class="sv-bullet">Mapeo y rediseño de procesos críticos</div>
-        <div class="sv-bullet">Automatización de tareas repetitivas con IA</div>
-        <div class="sv-bullet">Reducción de ciclos de aprobación</div>
-        <div class="sv-bullet">KPIs operativos en tiempo real</div>
-        <div class="sv-bullet">Hasta 70% de reducción en tiempo manual</div>
+        <div class="sv-label">Eficiencia Operativa</div>
+        <div class="sv-title">Mismo capital, mayor retorno</div>
+        <div class="sv-bullet">Rediseño de procesos con mayor costo-impacto</div>
+        <div class="sv-bullet">Automatización de tareas sin valor estratégico</div>
+        <div class="sv-bullet">Reducción del costo operativo por unidad</div>
+        <div class="sv-bullet">KPIs operativos vinculados a ROIC</div>
+        <div class="sv-bullet">Liberación del capital humano hacia alto valor</div>
       </div>
     </div>
   </div>
 
-  <!-- ─── SLIDE 7: PROCESO DE TRABAJO ─── -->
+  <!-- ─── SLIDE 7: CÓMO TRABAJAMOS ─── -->
   <div class="slide" id="s7">
     <div class="slide-header">
       <div class="slide-eyebrow">Cómo Trabajamos</div>
-      <h2 class="slide-title" style="color:white">Del diagnóstico al resultado<br><span style="color:var(--magenta)">en semanas, no meses</span></h2>
+      <h2 class="slide-title" style="color:white">Del diagnóstico al ROIC medible<br><span style="color:var(--magenta)">en semanas, no meses</span></h2>
     </div>
     <div class="process-timeline">
       <div class="pt-step">
         <div class="pt-circle">🤝</div>
         <div class="pt-week">Semana 1</div>
         <div class="pt-name">Discovery</div>
-        <div class="pt-desc">Reunión inicial, entendimiento del negocio y definición del alcance</div>
+        <div class="pt-desc">Entendimiento del negocio, contexto financiero y definición del alcance</div>
       </div>
       <div class="pt-step">
         <div class="pt-circle">🔍</div>
         <div class="pt-week">Semanas 1–2</div>
         <div class="pt-name">Diagnóstico</div>
-        <div class="pt-desc">Análisis de procesos, datos e identificación de oportunidades</div>
+        <div class="pt-desc">Línea base de ROIC, mapeo de ineficiencias e identificación de palancas</div>
       </div>
       <div class="pt-step">
         <div class="pt-circle">📐</div>
         <div class="pt-week">Semanas 2–3</div>
         <div class="pt-name">Diseño</div>
-        <div class="pt-desc">Arquitectura de solución, roadmap y validación con el equipo</div>
+        <div class="pt-desc">Solución + proyección de impacto en ROIC y validación con equipo</div>
       </div>
       <div class="pt-step">
         <div class="pt-circle">⚡</div>
         <div class="pt-week">Semanas 3–6</div>
-        <div class="pt-name">Build & Deploy</div>
-        <div class="pt-desc">Construcción e implementación con entregables semanales</div>
+        <div class="pt-name">Implementación</div>
+        <div class="pt-desc">Build y deploy con entregables semanales medibles</div>
       </div>
       <div class="pt-step">
         <div class="pt-circle">🎓</div>
         <div class="pt-week">Semana 6–7</div>
         <div class="pt-name">Transferencia</div>
-        <div class="pt-desc">Capacitación del equipo, documentación y entrega formal</div>
+        <div class="pt-desc">Capacitación del equipo y entrega del dashboard de resultados</div>
       </div>
       <div class="pt-step">
         <div class="pt-circle">📈</div>
         <div class="pt-week">Ongoing</div>
-        <div class="pt-name">Evolución</div>
-        <div class="pt-desc">Mejora continua, soporte y expansión de la solución</div>
+        <div class="pt-name">Amplificación</div>
+        <div class="pt-desc">Medición continua de ROIC, iteración y expansión de la solución</div>
       </div>
     </div>
   </div>
 
-  <!-- ─── SLIDE 8: POR QUÉ SPINGARN ─── -->
+  <!-- ─── SLIDE 8: POR QUÉ SPINGARN AMPLIFIER ─── -->
   <div class="slide" id="s8">
     <div class="left">
       <div class="slide-eyebrow">Nuestro Diferencial</div>
-      <h2 class="slide-title" style="font-size:clamp(26px,3vw,38px)">Por qué elegir<br><span>Spingarn IBC</span></h2>
+      <h2 class="slide-title" style="font-size:clamp(26px,3vw,38px)">Por qué elegir<br><span>Spingarn Amplifier</span></h2>
       <p class="desc">
-        La mayoría de las consultoras entregan recomendaciones. La mayoría de las tecnológicas implementan sin entender el negocio. Spingarn hace las dos cosas bien, en el orden correcto: primero entendemos, luego diseñamos, luego ejecutamos.
+        La mayoría de consultoras entregan presentaciones. Las tecnológicas implementan sin entender el negocio. Spingarn Amplifier hace algo distinto: llega con un diagnóstico riguroso de qué amplificar, diseña la intervención con impacto proyectado en ROIC, la ejecuta con IA y mide el resultado. Siempre en ese orden.
       </p>
       <div class="quote-block">
-        "El valor real no está en la herramienta que se implementa. Está en entender exactamente qué problema hay que resolver y cómo esa solución transforma la organización."
-        <div class="quote-author">— Spingarn, Integrated Business Consulting</div>
+        "No medimos el éxito por el número de procesos automatizados. Lo medimos por cuánto movimos el retorno sobre el capital que nuestros clientes tienen invertido en su operación."
+        <div class="quote-author">— Spingarn Amplifier</div>
       </div>
     </div>
     <div class="right">
       <div class="diff-card">
-        <div class="diff-icon">🎯</div>
-        <div class="diff-title">Diagnóstico riguroso</div>
-        <div class="diff-desc">No asumimos el problema: lo verificamos. Nuestro proceso de diagnóstico identifica causas raíz, no síntomas, antes de proponer cualquier solución.</div>
+        <div class="diff-icon">📈</div>
+        <div class="diff-title">ROIC como norte absoluto</div>
+        <div class="diff-desc">Cada proyecto parte de una línea base de retorno sobre capital invertido. El éxito se mide por cuánto la movimos, no por la cantidad de entregables.</div>
       </div>
       <div class="diff-card">
-        <div class="diff-icon">🏗️</div>
-        <div class="diff-title">Diseño antes de ejecutar</div>
-        <div class="diff-desc">Diseñamos la solución completa — incluyendo el impacto en personas y procesos — antes de implementar. Esto elimina retrabajo y asegura adopción.</div>
-      </div>
-      <div class="diff-card">
-        <div class="diff-icon">🌐</div>
-        <div class="diff-title">Impacto organizacional integral</div>
-        <div class="diff-desc">Nuestras soluciones no optimizan un proceso aislado. Transforman la forma en que la organización opera, decide y crece.</div>
+        <div class="diff-icon">🔍</div>
+        <div class="diff-title">Diagnóstico antes que solución</div>
+        <div class="diff-desc">No asumimos qué amplificar. Lo verificamos. Nuestro diagnóstico identifica las palancas reales de resultado antes de proponer cualquier intervención.</div>
       </div>
       <div class="diff-card">
         <div class="diff-icon">🤖</div>
-        <div class="diff-title">IA como herramienta, no como fin</div>
-        <div class="diff-desc">Usamos IA donde genera valor real, no para cumplir una tendencia. La tecnología sirve a la estrategia, no al revés.</div>
+        <div class="diff-title">IA como amplificador, no como producto</div>
+        <div class="diff-desc">La IA es el mecanismo que escala el resultado sin escalar el costo. La usamos donde amplifica; si no amplifica, no la usamos.</div>
+      </div>
+      <div class="diff-card">
+        <div class="diff-icon">🌐</div>
+        <div class="diff-title">Impacto integral, no puntual</div>
+        <div class="diff-desc">Diseñamos considerando el efecto en toda la organización: personas, procesos, sistemas y capital. No optimizamos un eslabón mientras dañamos otro.</div>
       </div>
       <div class="diff-card">
         <div class="diff-icon">📚</div>
-        <div class="diff-title">Transferencia y autonomía</div>
-        <div class="diff-desc">Su equipo queda capacitado para operar y evolucionar las soluciones. No generamos dependencia: generamos capacidad interna.</div>
+        <div class="diff-title">Autonomía, no dependencia</div>
+        <div class="diff-desc">Su equipo sale capacitado para operar y evolucionar las soluciones. El objetivo es que no nos necesiten para mantener el ROIC alto.</div>
       </div>
       <div class="diff-card">
-        <div class="diff-icon">📈</div>
-        <div class="diff-title">ROI y rentabilidad como norte</div>
-        <div class="diff-desc">Definimos desde el inicio cómo la solución mejora eficiencia, margen y retorno. Cada decisión de diseño se evalúa contra su impacto en el EBITDA del cliente.</div>
+        <div class="diff-icon">⚡</div>
+        <div class="diff-title">Velocidad de implementación</div>
+        <div class="diff-desc">Del diagnóstico al resultado real en semanas. El capital invertido en consultoría empieza a generar retorno rápido, no en el largo plazo.</div>
       </div>
     </div>
   </div>
 
-  <!-- ─── SLIDE 9: CASO DE USO ─── -->
+  <!-- ─── SLIDE 9: CASO DE AMPLIFICACIÓN ─── -->
   <div class="slide" id="s9">
     <div class="slide-header">
-      <div class="slide-eyebrow">Ejemplo de Impacto</div>
-      <h2 class="slide-title" style="color:white">Así se ve una solución <span style="color:var(--magenta)">Spingarn en acción</span></h2>
+      <div class="slide-eyebrow">Caso Real de Amplificación</div>
+      <h2 class="slide-title" style="color:white">Así se ve <span style="color:var(--magenta)">Spingarn Amplifier en acción</span></h2>
     </div>
     <div class="case-grid">
       <div class="case-col">
         <div class="case-card">
-          <div class="case-label problem">⚠ El Problema</div>
+          <div class="case-label problem">⚠ El Problema de Fondo</div>
           <div class="case-text">
-            Empresa de servicios profesionales con 40 personas: coordinación de proyectos completamente manual vía correo y Excel. Sin visibilidad del estado real de cada cliente. Los líderes pasaban 12+ horas semanales en seguimiento.
+            Firma de servicios profesionales, 40 personas. Los líderes pasaban 12+ horas semanales en coordinación y seguimiento manual vía correo y Excel. Capital humano de alto costo asignado a trabajo operativo de bajo valor. ROIC por debajo del potencial real del negocio.
           </div>
         </div>
         <div class="case-card">
-          <div class="case-label solution">⚡ La Solución Spingarn</div>
+          <div class="case-label solution">⚡ La Intervención Amplifier</div>
           <div class="case-text">
-            Diagnóstico profundo de procesos y cultura organizacional → Rediseño del modelo de coordinación → Implementación de plataforma con IA integrada para visibilidad en tiempo real y alertas predictivas → Capacitación y transferencia al equipo.
+            Diagnóstico de líneas de resultado → Identificación de palancas de ROIC → Rediseño del modelo de coordinación → Implementación de plataforma con agentes IA para visibilidad en tiempo real, alertas predictivas y automatización de seguimiento → Capacitación y transferencia.
           </div>
         </div>
       </div>
       <div class="case-col">
         <div class="case-card" style="flex:0">
-          <div class="case-label result">📈 Resultados</div>
+          <div class="case-label result">📈 Amplificación Lograda</div>
           <div class="results-row" style="margin-top:16px">
             <div class="result-item">
               <div class="case-result-num magenta">−70%</div>
@@ -1137,19 +1109,19 @@
             </div>
             <div class="result-item">
               <div class="case-result-num magenta">6w</div>
-              <div class="case-result-label">De diagnóstico a impacto real</div>
+              <div class="case-result-label">Del diagnóstico al ROIC mejorado</div>
             </div>
           </div>
         </div>
         <div class="case-card" style="background:rgba(200,0,122,0.08); border-color:rgba(200,0,122,0.2)">
-          <div class="case-label" style="color:var(--magenta-light)">💡 Herramientas usadas</div>
+          <div class="case-label" style="color:var(--magenta-light)">🔬 Palancas activadas</div>
           <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px">
-            <span class="tool-ex">Claude Code</span>
-            <span class="tool-ex">Agente IA predictivo</span>
-            <span class="tool-ex">Next.js + Supabase</span>
-            <span class="tool-ex">Dashboard en tiempo real</span>
+            <span class="tool-ex">Reasignación de capital humano</span>
+            <span class="tool-ex">Agente IA de coordinación</span>
+            <span class="tool-ex">Dashboard de ROIC en tiempo real</span>
             <span class="tool-ex">Automatización de alertas</span>
-            <span class="tool-ex">API integrations</span>
+            <span class="tool-ex">Eliminación de retrabajo</span>
+            <span class="tool-ex">Claude Code + Supabase</span>
           </div>
         </div>
       </div>
@@ -1160,20 +1132,20 @@
   <div class="slide" id="s10">
     <div class="bg-glow"></div>
     <div class="close-content">
-      <svg width="180" height="54" viewBox="0 0 240 72" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 40px;display:block">
+      <svg width="200" height="60" viewBox="0 0 260 80" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 40px;display:block">
         <text x="0" y="46" font-family="'Helvetica Neue', Arial, sans-serif" font-size="42" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
-        <text x="2" y="63" font-family="'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="rgba(255,255,255,0.4)" letter-spacing="1">Integrated Business Consulting</text>
+        <text x="2" y="66" font-family="'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="600" fill="#C8007A" letter-spacing="4">AMPLIFIER</text>
       </svg>
 
-      <div class="close-eyebrow">¿Listo para resolver su próximo desafío?</div>
+      <div class="close-eyebrow">¿Cuánto está dejando de amplificar su negocio?</div>
       <h2 class="close-title">
-        Hablemos de su<br>
-        <strong>operación</strong>
+        Empecemos con un<br>
+        <strong>diagnóstico de amplitud</strong>
       </h2>
       <p class="close-sub">
-        Cuéntenos el problema. Nosotros diseñamos e implementamos la solución con inteligencia artificial.
+        En una sesión de trabajo identificamos dónde están sus palancas reales de ROIC y qué podría mover el retorno sobre su capital en las próximas semanas.
       </p>
-      <button class="cta-btn" onclick="toggleContact()">Agendar una sesión de diagnóstico →</button>
+      <button class="cta-btn" onclick="toggleContact()">Agendar diagnóstico de amplitud →</button>
 
       <div id="contact-details" style="display:none; margin-top:32px; animation: fadeIn 0.4s ease;">
         <div class="contact-row" style="flex-wrap:wrap; gap:20px;">
@@ -1201,14 +1173,13 @@
   <div class="nav-dots" id="dots"></div>
   <button class="nav-btn" onclick="next()">›</button>
 </div>
-<div class="key-hint">← → espace para navegar</div>
+<div class="key-hint">← → espacio para navegar</div>
 
 <script>
 const slides = document.querySelectorAll('.slide');
 const dotsEl = document.getElementById('dots');
 let cur = 0;
 
-// Build dots
 slides.forEach((_, i) => {
   const d = document.createElement('div');
   d.className = 'dot' + (i === 0 ? ' active' : '');
@@ -1232,22 +1203,21 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') prev();
 });
 
-// Services slide interaction
 const svcData = [
   {
-    label: 'Optimización Operativa',
-    title: 'Haga más con el mismo equipo',
-    bullets: ['Mapeo y rediseño de procesos críticos', 'Automatización de tareas repetitivas con IA', 'Reducción de ciclos de aprobación', 'KPIs operativos en tiempo real', 'Hasta 70% de reducción en tiempo manual']
+    label: 'Eficiencia Operativa',
+    title: 'Mismo capital, mayor retorno',
+    bullets: ['Rediseño de procesos con mayor costo-impacto', 'Automatización de tareas sin valor estratégico', 'Reducción del costo operativo por unidad', 'KPIs operativos vinculados a ROIC', 'Liberación del capital humano hacia alto valor']
   },
   {
-    label: 'Inteligencia de Datos',
-    title: 'Decisiones basadas en evidencia',
-    bullets: ['Centralización de fuentes de datos', 'Dashboards ejecutivos en tiempo real', 'Modelos predictivos con IA', 'Reportes automáticos y alertas', 'Análisis de tendencias del negocio']
+    label: 'Inteligencia de Capital',
+    title: 'Vea exactamente dónde está su retorno',
+    bullets: ['Dashboard de ROIC en tiempo real', 'Trazabilidad del capital invertido', 'Identificación de centros de destrucción de valor', 'Modelos de proyección de margen', 'Alertas automáticas sobre desviaciones']
   },
   {
-    label: 'Transformación Digital',
-    title: 'El futuro de su empresa, ahora',
-    bullets: ['Hoja de ruta de digitalización completa', 'Priorización de iniciativas por impacto', 'Implementación gradual y medible', 'Gestión del cambio organizacional', 'Capacitación técnica del equipo']
+    label: 'Transformación de Capacidad',
+    title: 'Más output, misma estructura de costos',
+    bullets: ['Digitalización de flujos críticos', 'Agentes IA que escalan la operación', 'Integración de sistemas desconectados', 'Capacidad de entrega sin crecimiento lineal de equipo', 'Roadmap de amplificación priorizado por ROIC']
   }
 ];
 
