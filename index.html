@@ -109,6 +109,44 @@
     background: linear-gradient(90deg, var(--magenta), transparent);
   }
   #s1 .cover-logo { margin-bottom: 56px; }
+
+  /* ─── LOGO ANIMATION ─── */
+  .logo-wordmark {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: clamp(40px, 5vw, 58px);
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1;
+    display: block;
+    opacity: 0;
+  }
+  .logo-amplifier {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: clamp(18px, 2.4vw, 28px);
+    font-weight: 700;
+    color: var(--magenta);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 6px;
+    opacity: 0;
+  }
+  .logo-animate .logo-wordmark {
+    animation: logoFadeIn 0.5s ease 0.3s forwards;
+  }
+  .logo-animate .logo-amplifier {
+    animation: amplifierExpand 1s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards;
+  }
+  @keyframes logoFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes amplifierExpand {
+    0%   { opacity: 0; letter-spacing: -2px; transform: scaleX(0.6); }
+    40%  { opacity: 1; }
+    100% { opacity: 1; letter-spacing: 6px; transform: scaleX(1); }
+  }
   #s1 .cover-tag {
     font-size: 13px;
     letter-spacing: 4px;
@@ -736,10 +774,10 @@
     <div class="bg-accent"></div>
 
     <div class="cover-logo">
-      <svg width="420" height="100" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg">
-        <text x="0" y="58" font-family="'Helvetica Neue', Arial, sans-serif" font-size="58" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
-        <text x="3" y="90" font-family="'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#C8007A" letter-spacing="6">AMPLIFIER</text>
-      </svg>
+      <div class="logo-animate" id="s1-logo">
+        <span class="logo-wordmark">Spingarn</span>
+        <span class="logo-amplifier">AMPLIFIER</span>
+      </div>
     </div>
 
     <div class="cover-tag">Consultoría de Amplificación de Resultados</div>
@@ -1197,6 +1235,14 @@ function go(n) {
   cur = (n + slides.length) % slides.length;
   slides[cur].classList.add('active');
   dotsEl.children[cur].classList.add('active');
+  if (cur === 0) replayLogoAnimation();
+}
+
+function replayLogoAnimation() {
+  const logo = document.getElementById('s1-logo');
+  logo.classList.remove('logo-animate');
+  void logo.offsetWidth; // force reflow to restart animation
+  logo.classList.add('logo-animate');
 }
 
 function next() { go(cur + 1); }
