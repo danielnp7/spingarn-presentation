@@ -1170,10 +1170,10 @@
   <div class="slide" id="s10">
     <div class="bg-glow"></div>
     <div class="close-content">
-      <svg width="420" height="100" viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 40px;display:block">
-        <text x="0" y="58" font-family="'Helvetica Neue', Arial, sans-serif" font-size="58" font-weight="300" fill="#FFFFFF" letter-spacing="-1">Spingarn</text>
-        <text x="3" y="90" font-family="'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#C8007A" letter-spacing="6">AMPLIFIER</text>
-      </svg>
+      <div class="logo-animate" id="s10-logo" style="margin:0 auto 40px; text-align:center;">
+        <span class="logo-wordmark">Spingarn</span>
+        <span class="logo-amplifier">AMPLIFIER</span>
+      </div>
 
       <div class="close-eyebrow">¿Cuánto está dejando de amplificar su negocio?</div>
       <h2 class="close-title">
@@ -1235,13 +1235,14 @@ function go(n) {
   cur = (n + slides.length) % slides.length;
   slides[cur].classList.add('active');
   dotsEl.children[cur].classList.add('active');
-  if (cur === 0) replayLogoAnimation();
+  if (cur === 0) replayLogo('s1-logo');
+  if (cur === slides.length - 1) replayLogo('s10-logo');
 }
 
-function replayLogoAnimation() {
-  const logo = document.getElementById('s1-logo');
+function replayLogo(id) {
+  const logo = document.getElementById(id);
   logo.classList.remove('logo-animate');
-  void logo.offsetWidth; // force reflow to restart animation
+  void logo.offsetWidth;
   logo.classList.add('logo-animate');
 }
 
