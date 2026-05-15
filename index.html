@@ -138,6 +138,32 @@
   .logo-animate .logo-amplifier {
     animation: amplifierExpand 1s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards;
   }
+  /* ─── GET AMPLIFIED ─── */
+  .get-amplified-wrap {
+    overflow: hidden;
+    padding: 8px 0;
+  }
+  .get-amplified-text {
+    display: block;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: clamp(40px, 7vw, 96px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--magenta);
+    opacity: 0;
+    transform: translateY(40px) scaleX(0.7);
+  }
+  .get-amplified-wrap.ga-animate .get-amplified-text {
+    animation: gaReveal 1s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+  }
+  @keyframes gaReveal {
+    0%   { opacity: 0; transform: translateY(40px) scaleX(0.7); letter-spacing: 0px; }
+    50%  { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0) scaleX(1); letter-spacing: 6px; }
+  }
+
   @keyframes logoFadeIn {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -1170,22 +1196,25 @@
   <div class="slide" id="s10">
     <div class="bg-glow"></div>
     <div class="close-content">
-      <div class="logo-animate" id="s10-logo" style="margin:0 auto 40px; text-align:center;">
+
+      <!-- Logo -->
+      <div class="logo-animate" id="s10-logo" style="margin:0 auto 32px; text-align:center;">
         <span class="logo-wordmark">Spingarn</span>
         <span class="logo-amplifier">AMPLIFIER</span>
       </div>
 
-      <div class="close-eyebrow">¿Cuánto está dejando de amplificar su negocio?</div>
-      <h2 class="close-title">
-        Empecemos con un<br>
-        <strong>diagnóstico de amplitud</strong>
-      </h2>
-      <p class="close-sub">
-        En una sesión de trabajo identificamos dónde están sus palancas reales de ROIC y qué podría mover el retorno sobre su capital en las próximas semanas.
+      <!-- GET AMPLIFIED — hero statement -->
+      <div class="get-amplified-wrap" id="get-amplified">
+        <span class="get-amplified-text">GET AMPLIFIED</span>
+      </div>
+
+      <!-- Sub copy + CTA -->
+      <p class="close-sub" style="margin-top:28px;">
+        En una sesión identificamos sus palancas reales de ROIC<br>y qué puede mover el retorno sobre su capital invertido.
       </p>
       <button class="cta-btn" onclick="toggleContact()">Agendar diagnóstico de amplitud →</button>
 
-      <div id="contact-details" style="display:none; margin-top:32px; animation: fadeIn 0.4s ease;">
+      <div id="contact-details" style="display:none; margin-top:28px; animation: fadeIn 0.4s ease;">
         <div class="contact-row" style="flex-wrap:wrap; gap:20px;">
           <a href="mailto:dnarvaez@spingarn.ec" class="contact-item" style="color:rgba(255,255,255,0.8); text-decoration:none;">
             ✉️ <span>dnarvaez@spingarn.ec</span>
@@ -1197,12 +1226,8 @@
         </div>
       </div>
 
-      <div class="contact-row" style="margin-top:24px;">
+      <div class="contact-row" style="margin-top:20px;">
         <div class="contact-item">📍 <span>Ecuador</span></div>
-      </div>
-
-      <div style="margin-top:52px; letter-spacing:8px; font-size:clamp(22px,3.5vw,44px); font-weight:900; color:transparent; -webkit-text-stroke:1.5px rgba(200,0,122,0.5); text-transform:uppercase;">
-        GET AMPLIFIED
       </div>
     </div>
   </div>
@@ -1236,7 +1261,14 @@ function go(n) {
   slides[cur].classList.add('active');
   dotsEl.children[cur].classList.add('active');
   if (cur === 0) replayLogo('s1-logo');
-  if (cur === slides.length - 1) replayLogo('s10-logo');
+  if (cur === slides.length - 1) { replayLogo('s10-logo'); replayGA(); }
+}
+
+function replayGA() {
+  const el = document.getElementById('get-amplified');
+  el.classList.remove('ga-animate');
+  void el.offsetWidth;
+  el.classList.add('ga-animate');
 }
 
 function replayLogo(id) {
